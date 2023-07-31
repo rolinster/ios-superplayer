@@ -7,7 +7,7 @@
 
 import ComposableArchitecture
 
-public let debugReducer = Reducer<SuperPlayerState, SuperPlayerAction, SuperPlayerEnvironment> { state, action, _ in
+public let debugReducer = AnyReducer<SuperPlayerState, SuperPlayerAction, SuperPlayerEnvironment> { state, action, _ in
     switch action {
     case let .setReloadCountdown(reloadCountdown):
         state.reloadCountdown = reloadCountdown

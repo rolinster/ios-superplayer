@@ -47,7 +47,7 @@ public enum ComposablePlayerAction: Equatable {
     case volume(Float)
 }
 
-public let composablePlayerReducer = Reducer<ComposablePlayerState, ComposablePlayerAction, Void> { state, action, _ in
+public let composablePlayerReducer = AnyReducer<ComposablePlayerState, ComposablePlayerAction, Void> { state, action, _ in
     switch action {
     // MARK: AVPlayer properties
 

@@ -28,7 +28,7 @@ public final class SuperPlayerControlView: UIView {
         return node
     }()
 
-    public var playButtonTapped: Effect<Void, Never> {
+    public var playButtonTapped: EffectTask<Void> {
         return playButton.publisher(for: UIControl.Event.touchUpInside).map { _ in }.eraseToEffect()
     }
 

@@ -41,7 +41,7 @@ public enum ComposablePlayerItemAction: Equatable {
     case loadedTimeRanges([CMTimeRange])
 }
 
-public let composablePlayerItemReducer = Reducer<ComposablePlayerItemState, ComposablePlayerItemAction, Void> { state, action, _ in
+public let composablePlayerItemReducer = AnyReducer<ComposablePlayerItemState, ComposablePlayerItemAction, Void> { state, action, _ in
     switch action {
     case let .callMethod(method):
         guard let method = method else {

@@ -39,7 +39,7 @@ public enum ComposablePictureInPictureAction: Equatable {
     case callDelegate(ComposablePictureInPictureDelegate)
 }
 
-public let composablePictureInPictureReducer = Reducer<ComposablePictureInPictureState, ComposablePictureInPictureAction, Void> { state, action, _ in
+public let composablePictureInPictureReducer = AnyReducer<ComposablePictureInPictureState, ComposablePictureInPictureAction, Void> { state, action, _ in
     switch action {
     case let .isEnabled(isEnabled):
         state.isEnabled = isEnabled

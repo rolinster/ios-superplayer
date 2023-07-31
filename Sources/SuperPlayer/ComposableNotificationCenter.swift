@@ -32,7 +32,7 @@ public enum ComposableNotificationCenterAction: Equatable {
     case playerItemLog(PlayerItemLog)
 }
 
-public let composableNotificationCenterReducer = Reducer<ComposableNotificationCenterState, ComposableNotificationCenterAction, Void> { state, action, _ in
+public let composableNotificationCenterReducer = AnyReducer<ComposableNotificationCenterState, ComposableNotificationCenterAction, Void> { state, action, _ in
 
     switch action {
     case let .callMethod(method):

@@ -84,7 +84,7 @@ public struct SuperPlayerEnvironment {
 
     // MARK: 404 error utilities
 
-    internal var checkResource: (URL) -> Effect<URLSession.DataTaskPublisher.Output, URLSession.DataTaskPublisher.Failure>
+    internal var checkResource: (URL) -> EffectPublisher<URLSession.DataTaskPublisher.Output, URLSession.DataTaskPublisher.Failure>
     internal var maximumRetryCount: Int // TODO: remove this if retry algorithm works as expected
     internal var reloadInterval: Int
 }
@@ -103,8 +103,8 @@ extension SuperPlayerEnvironment {
     }
 }
 
-public var superPlayerReducer: Reducer<SuperPlayerState, SuperPlayerAction, SuperPlayerEnvironment> = .combine(
-    Reducer { state, action, environment in
+public var superPlayerReducer: AnyReducer<SuperPlayerState, SuperPlayerAction, SuperPlayerEnvironment> = .combine(
+    AnyReducer { state, action, environment in
 
         struct PlaybackTimeRangeCancelID: Hashable {}
 
@@ -131,7 +131,7 @@ public var superPlayerReducer: Reducer<SuperPlayerState, SuperPlayerAction, Supe
 
         case let .load(url, autoPlay):
 
-            var actions: [Effect<SuperPlayerAction, Never>] = [
+            var actions: [EffectTask<SuperPlayerAction>] = [
                 Effect(value: .player(.callMethod(.replaceCurrentItem(with: url)))),
                 Effect(value: .resetPlayerItem(url))
             ]
@@ -315,7 +315,7 @@ public var superPlayerReducer: Reducer<SuperPlayerState, SuperPlayerAction, Supe
             }
 
             guard let lastLoadedTimeRange = loadedTimeRanges.last else { return .none }
-            var effects: [Effect<SuperPlayerAction, Never>] = []
+            var effects: [EffectTask<SuperPlayerAction>] = []
 
             // MARK: Play Immediately when player has sufficient buffer to play
 
@@ -355,7 +355,7 @@ public var superPlayerReducer: Reducer<SuperPlayerState, SuperPlayerAction, Supe
                  */
                 let remainingSecondsUntilPause = Int(playbackTimeRange.end.seconds - state.player.currentTime.seconds)
                 effects.append(
-                    Effect<SuperPlayerAction, Never>.merge(
+                    EffectTask<SuperPlayerAction>.merge(
                         Effect(value: .player(.callMethod(.pause))),
                         Effect(value: .player(.automaticallyWaitsToMinimizeStalling(true))),
                         Effect(value: .playerItem(.preferredForwardBufferDuration(previousPreferredForwardBufferDuration))),
